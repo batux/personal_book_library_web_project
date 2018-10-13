@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Mızrak Otomotiv Kredi Ön Başvuru</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/breadcrumb.css">
+<link rel="stylesheet" type="text/css" href="css/angular-datepicker.min.css">
+
+</head>
+<body ng-app="BookLibraryApp">
+
+	<div class="container" ng-controller="BookLibraryCtlr">
+
+		<div class="row header_bottom_padding">
+			<div class="col-xs-12"></div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-2">
+				<img class="pull-left" width="110px" height="90px"
+					src="img/logo.png" />
+			</div>
+			<div class="col-md-5">
+				<h3 class="pull-left" style="border-bottom: 1px solid #c5c5c5;">
+					Bireysel Kütüphane</h3>
+			</div>
+			<div class="col-md-4">
+				<ul class="nav nav-tabs" role="tablist">
+					<li role="presentation" class="pull-right"><a
+						href="http://localhost:8090/com.personal.book.library/logout">Çıkış</a></li>
+					<li role="presentation" class="pull-right"><a aria-controls="profile">{{userSummary.name}} {{userSummary.surname}}</a></li>
+				</ul>
+			</div>
+		</div>
+
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+			<hr>
+			</div>
+		</div>
+
+		<div class="row">
+
+			<form name="rootPersonalDetailsForm" novalidate> 
+				<div>
+					<ng-form name="bookInsertionDetailsForm">
+						<div class="col-md-3"></div>
+						<div class="col-md-6">
+							
+							<div class="row form-group" ng-class="{ 'has-error' : bookInsertionDetailsForm.name.$invalid && submitted }">
+								<div class="col-md-6 form-group">
+									<label>Kitap Adı</label><span class="glyphicon glyphicon-asterisk text-danger" style="font-size: 10px"></span>
+									<input name="name" placeholder="Kitap adı ..."
+										type="text" 
+										ng-model="book.name"
+										class="form-control" required></input>
+									<p ng-show="bookInsertionDetailsForm.name.$invalid && submitted"
+									   class="help-block">Kitap adı bilgisi boş bırakılamaz.</p>
+								</div>
+								<div class="col-md-6 form-group" ng-class="{ 'has-error' : bookInsertionDetailsForm.authorFullName.$invalid && submitted }">
+									<label>Yazarı</label><span class="glyphicon glyphicon-asterisk text-danger" style="font-size: 10px"></span> 
+									<input name="authorFullName" placeholder="Yazar adı ..."
+										type="text" 
+										ng-model="book.authorFullName"
+										class="form-control" required></input>
+									<p ng-show="bookInsertionDetailsForm.authorFullName.$invalid && submitted" class="help-block">Yazar bilgisi boş bırakılamaz.</p>
+								</div>
+							</div>
+								
+							<div class="row">
+								<div class="col-md-6 form-group" ng-class="{ 'has-error' : bookInsertionDetailsForm.category.$invalid && submitted }">
+									<label>Kategori</label> <span class="glyphicon glyphicon-asterisk text-danger" style="font-size: 10px"></span>
+									<select name="category" class="form-control" ng-model="book.category" required>
+										<option value=""> Seçiniz </option>
+										<option ng-repeat="item in categoryList" ng-value="item.id">{{item.name}}</option>
+									</select>
+									<p ng-show="bookInsertionDetailsForm.category.$invalid && submitted" class="help-block">Kategori alanı boş bırakılamaz.</p>
+								</div>
+								<div class="col-md-6 form-group" ng-class="{ 'has-error' : bookInsertionDetailsForm.likeDegree.$invalid && submitted }">
+									<label>Beğeni Derecesi</label> <span class="glyphicon glyphicon-asterisk text-danger" style="font-size: 10px"></span>
+									<select name="likeDegree" class="form-control" ng-model="book.likeDegree" required>
+										<option value=""> Seçiniz </option>
+										<option ng-repeat="item in likeDegreeList" ng-value="item">{{item}}</option>
+									</select>
+									<p ng-show="bookInsertionDetailsForm.likeDegree.$invalid && submitted" class="help-block">Beğeni alanı boş bırakılamaz.</p>
+								</div>
+							</div>	
+								
+							<div class="row form-group">
+								<div class="col-md-12">
+									<button type="submit" ng-click="saveBook(bookInsertionDetailsForm.$valid)" class="btn btn-lg btn-success pull-right">Kaydet</button>
+								</div>
+							</div>
+								
+						</div>
+					</ng-form>
+				</div>
+				
+			</form>
+			
+		</div>
+		
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-11">
+			<hr>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-md-1"></div>		
+			<div class="col-md-11">
+				<table class="table table-striped custab">
+					<thead>
+						<tr>
+							<th>ID</th>
+							<th>Kitap Adı</th>
+							<th>Yazar</th>
+							<th>Kategori</th>
+							<th>Beğeni</th>
+							<th>Kayıt Tarihi</th>
+						</tr>
+					</thead>
+
+					<tr ng-repeat="book in userBooks">
+						<td>{{book.id}}</td>
+						<td>{{book.name}}</td>
+						<td>{{book.authorFullName}}</td>
+						<td>{{book.category.name}}</td>
+						<td>{{book.likeDegree}}</td>
+						<td>{{book.createdDate}}</td>
+					</tr>
+
+					<tr ng-if="userBooks.length == 0">
+						<td colspan="8">
+							<h1 class="text-center">
+								<small>Arama sonuç listesi boş</small>
+							</h1>
+						</td>
+					</tr>
+
+				</table>
+			</div>
+		</div>
+		
+		<div class="row">
+			<div class="col-lg-12">
+				<div class="col-md-8"></div>
+				<div class="col-md-4">
+					<p class="muted pull-right">2018 Bilgisayar Mühendisleri Odası</p>
+				</div>
+			</div>
+		</div>
+
+		<div id="successMessageModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Kayıt Bilgilendirme</h4>
+					</div>
+					<div class="modal-body">
+						<p>Kitabınız başarıyla kaydedilmiştir.</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+		
+		<div id="successErrorModal" class="modal fade" role="dialog">
+			<div class="modal-dialog">
+
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal">&times;</button>
+						<h4 class="modal-title">Hata Bilgilendirme</h4>
+					</div>
+					<div class="modal-body">
+						<p>Kayıt işlemi esnasında hata oluştu!</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">Kapat</button>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+	</div>
+	
+	
+	<script src="js/angular.min.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	
+	<script src="js/main.js"></script>
+	
+</body>
+</html>
