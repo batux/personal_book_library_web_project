@@ -19,6 +19,40 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - Spring MVC
 - Spring Security
 
+# Docker for Kafka & Zookeeper
+
+```docker
+# create docker-machine
+docker-machine create --driver virtualbox --virtualbox-memory 6000 kafka
+
+# get docker machine ip
+docker-machine ip kafka
+
+# Docker compose up for Kafka & Zookeeper
+docker-compose -f docker_compose_app_kafka.yml up
+
+# list all active docker containers
+docker ps -a
+```
+
+```yml
+version: '2'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper
+    ports:
+      - "2181:2181"
+  kafka:
+    image: wurstmeister/kafka:0.10.2.0-1
+    ports:
+      - "9092:9092"
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 127.0.0.1 #192.168.99.100 #{Docker Machine IP}
+      KAFKA_ADVERTISED_PORT: 9092
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+```
 
 # Docker Commands
 
