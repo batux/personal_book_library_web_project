@@ -72,20 +72,21 @@ public class BookLibraryRestController {
 		return books;
 	}
 	
+	@Cacheable(value = "usersummary", cacheManager="cacheManager")
 	@RequestMapping(value="/user/summary", method=RequestMethod.GET)
 	public @ResponseBody UserSessionSummary getUserSummary() {
 		
 		return userService.getUserSummary();
 	}
 	
-	@Cacheable(value = "categories")
+	@Cacheable(value = "categories", cacheManager="cacheManager")
 	@RequestMapping(value="/categories", method=RequestMethod.GET)
 	public @ResponseBody List<Category> getCategories() {
 		
 		return categoryService.prepareCategories();
 	}
 	
-	@Cacheable(value = "likedegrees")
+	@Cacheable(value = "likedegrees", cacheManager="cacheManager")
 	@RequestMapping(value="/likedegree/list", method=RequestMethod.GET)
 	public @ResponseBody List<LikeDegree> getLikeDegrees() {
 		

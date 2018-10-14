@@ -10,12 +10,35 @@
    http://www.springframework.org/schema/aop 
    http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
    http://www.springframework.org/schema/mvc 
-   http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd">
+   http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+   http://www.springframework.org/schema/cache 
+   http://www.springframework.org/schema/cache/spring-cache.xsd">
 
 	<context:annotation-config />
 
 	<context:component-scan base-package="com.personal.book.library.web" />
+	
+	<cache:annotation-driven />
 
+	<bean id="cacheManager" class="org.springframework.cache.support.SimpleCacheManager">
+		<property name="caches">
+			<set>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="categories" />
+				</bean>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="likedegrees" />
+				</bean>
+				<bean
+					class="org.springframework.cache.concurrent.ConcurrentMapCacheFactoryBean">
+					<property name="name" value="usersummary" />
+				</bean>
+			</set>
+		</property>
+	</bean>
+	
 	<aop:aspectj-autoproxy />
 
 	<mvc:annotation-driven>

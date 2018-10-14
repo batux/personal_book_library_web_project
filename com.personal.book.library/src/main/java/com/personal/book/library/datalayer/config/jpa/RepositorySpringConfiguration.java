@@ -7,6 +7,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -26,6 +27,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 
 @Configuration
 @EnableWebMvc
+//@EnableCaching
 @EnableTransactionManagement
 @PropertySource({ "classpath:application.properties" })
 @EnableJpaRepositories(basePackages = { "com.personal.book.library.datalayer.entity", 
@@ -84,6 +86,13 @@ public class RepositorySpringConfiguration extends WebMvcConfigurerAdapter {
 	public HibernateExceptionTranslator hibernateExceptionTranslator() {
 		return new HibernateExceptionTranslator();
 	}
+	
+	/* If you want you can configure your cache manager in Java side.
+	@Bean(name = "BookLibraryCacheManager")
+    public CacheManager cacheManager() {
+        return new ConcurrentMapCacheManager("categories", "likedegrees");
+    }
+    */
 
 	private final Properties jpaProperties() {
 		
