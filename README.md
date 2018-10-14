@@ -17,6 +17,7 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - Spring Core
 - Spring Data
 - Spring MVC
+- Spring Kafka
 - Spring Security
 
 # Docker for Kafka & Zookeeper
