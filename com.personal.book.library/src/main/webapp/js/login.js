@@ -1,4 +1,4 @@
-var creditApplication =  angular.module('CreditApplication', []);
+var creditApplication =  angular.module('AuthenticationApplication', []);
 
 creditApplication.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http) {
     
