@@ -64,7 +64,9 @@ creditApplication.controller('BookLibraryCtlr', ['$scope', '$rootScope', '$locat
 		
 		$http.get('http://localhost:8090/com.personal.book.library/rest/book/library/v1/book/draft').then(function(response){
 			$scope.book = response.data || {};
-			$scope.book.category = $scope.book.category.id;
+			if($scope.book.category) {
+				$scope.book.category = $scope.book.category.id;
+			}
 	    });
 	}
 	loadBookDraftIfExist();
@@ -106,7 +108,7 @@ creditApplication.controller('BookLibraryCtlr', ['$scope', '$rootScope', '$locat
 	
 	loadUserSummary();
 	
-	$interval(saveBookDraft, 10000);
+	$interval(saveBookDraft, 30000);
 	
 }]);
 

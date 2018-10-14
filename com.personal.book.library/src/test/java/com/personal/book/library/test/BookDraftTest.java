@@ -17,7 +17,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.CollectionUtils;
 
-import com.personal.book.library.datalayer.config.mongo.MongoSpringConfiguration;
+import com.personal.book.library.config.mongo.MongoSpringConfiguration;
 import com.personal.book.library.datalayer.model.Book;
 import com.personal.book.library.datalayer.repository.mongo.BookDraftRepository;
 

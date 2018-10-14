@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.personal.book.library.datalayer.model.Book;
 import com.personal.book.library.datalayer.repository.mongo.BookDraftRepository;
@@ -21,7 +22,7 @@ public class BookDraftService {
 	@Autowired
 	private HttpSession httpSession;
 	
-	
+	@Transactional
 	public boolean saveBookAsDraft(Book book) {
 		
 		Long userId = HttpSessionUtil.getUserId(httpSession);
@@ -29,14 +30,18 @@ public class BookDraftService {
 		book.setUserId(userIdAsBigInt);
 		book.setCreatedDate(new Date());
 		
-		Book originalDraft = bookDraftRepository.findByUserId(userIdAsBigInt);
+		Book originalDraft = bookDraftRepository.findWithUserId(userIdAsBigInt);
 		
 		if(originalDraft != null) {
-			book.setId(originalDraft.getId());
-			bookDraftRepository.save(originalDraft);
+			originalDraft.setAuthorFullName(book.getAuthorFullName());
+			originalDraft.setCategory(book.getCategory());
+			originalDraft.setCreatedDate(new Date());
+			originalDraft.setLikeDegree(book.getLikeDegree());
+			originalDraft.setName(book.getName());
+			originalDraft.setUserId(userIdAsBigInt);
 		}
 		
-		bookDraftRepository.save(book);
+		originalDraft = bookDraftRepository.save(originalDraft);
 		
 		return true;
 	}
@@ -45,7 +50,7 @@ public class BookDraftService {
 	public Book findDraftBook() {
 		
 		Long userId = HttpSessionUtil.getUserId(httpSession);
-		Book book = bookDraftRepository.findByUserId(new BigInteger(String.valueOf(userId)));
+		Book book = bookDraftRepository.findWithUserId(new BigInteger(String.valueOf(userId)));
 		return book;
 	}
 	

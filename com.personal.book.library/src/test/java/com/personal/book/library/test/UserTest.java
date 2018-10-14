@@ -16,7 +16,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.personal.book.library.datalayer.config.jpa.RepositorySpringConfiguration;
+import com.personal.book.library.config.jpa.RepositorySpringConfiguration;
+import com.personal.book.library.config.kafka.KafkaConsumerConfig;
+import com.personal.book.library.config.kafka.KafkaProducerConfig;
+import com.personal.book.library.config.mongo.MongoSpringConfiguration;
 import com.personal.book.library.datalayer.entity.User;
 import com.personal.book.library.datalayer.repository.jpa.UserRepository;
 import com.personal.book.library.util.CryptoUtil;
@@ -24,7 +27,10 @@ import com.personal.book.library.util.CryptoUtil;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = RepositorySpringConfiguration.class)
+@ContextConfiguration(classes = {RepositorySpringConfiguration.class, 
+		MongoSpringConfiguration.class, 
+		KafkaConsumerConfig.class, 
+		KafkaProducerConfig.class})
 @TestPropertySource({ "classpath:application.properties" })
 public class UserTest {
 

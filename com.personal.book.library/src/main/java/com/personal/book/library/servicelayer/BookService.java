@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,8 +16,10 @@ import com.personal.book.library.datalayer.entity.Book;
 import com.personal.book.library.datalayer.entity.User;
 import com.personal.book.library.datalayer.repository.jpa.BookRepository;
 import com.personal.book.library.datalayer.repository.jpa.UserRepository;
+import com.personal.book.library.kafka.MailMessageProducer;
 import com.personal.book.library.servicelayer.exception.ServiceLayerException;
 import com.personal.book.library.util.HttpSessionUtil;
+import com.personal.book.library.util.MailContextUtil;
 
 @Service
 public class BookService {
@@ -26,6 +29,12 @@ public class BookService {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
+	@Autowired
+	private MailMessageProducer mailMessageProducer;
+	
+	@Autowired
+	private Environment environment;
 	
 	@Autowired
 	private HttpSession httpSession;
@@ -47,9 +56,10 @@ public class BookService {
 		
 		book.setUser(user);
 		book.setCreatedDate(new Date());
-		
-		
 		book = bookRepository.save(book);
+		
+		mailMessageProducer.send(MailContextUtil.createMailContext(book, environment.getProperty("to.emails")));
+		
 		return book.getId().longValue();
 	}
 	

@@ -1,4 +1,4 @@
-package com.personal.book.library.datalayer.config.jpa;
+package com.personal.book.library.config.jpa;
 
 import java.sql.SQLException;
 import java.util.Properties;
@@ -29,10 +29,12 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter
 //@EnableCaching
 @EnableTransactionManagement
 @PropertySource({ "classpath:application.properties" })
-@EnableJpaRepositories(basePackages = { "com.personal.book.library.datalayer.entity", 
-		"com.personal.book.library.datalayer.repository", "com.personal.book.library.servicelayer" })
+@EnableJpaRepositories(basePackages = { "com.personal.book.library.datalayer.entity", "com.personal.book.library.datalayer.repository.jpa"})
 @ComponentScan({ "com.personal.book.library.datalayer.entity", 
-	"com.personal.book.library.datalayer.repository", "com.personal.book.library.servicelayer" })
+	"com.personal.book.library.datalayer.repository.jpa", 
+	"com.personal.book.library.servicelayer",
+	"com.personal.book.library.kafka",
+	"com.personal.book.library.email"})
 public class RepositorySpringConfiguration extends WebMvcConfigurerAdapter {
 
 	@Autowired
@@ -67,8 +69,7 @@ public class RepositorySpringConfiguration extends WebMvcConfigurerAdapter {
 		LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
 		factory.setJpaVendorAdapter(vendorAdapter);
 		factory.setPackagesToScan("com.personal.book.library.datalayer.entity", 
-								 "com.personal.book.library.datalayer.repository",
-								 "com.personal.book.library.servicelayer");
+								 "com.personal.book.library.datalayer.repository.jpa");
 		factory.setDataSource(dataSource());
 		factory.afterPropertiesSet();
 		factory.setJpaProperties(jpaProperties());

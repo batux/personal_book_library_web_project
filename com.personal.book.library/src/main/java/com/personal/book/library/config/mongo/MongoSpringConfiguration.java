@@ -1,4 +1,4 @@
-package com.personal.book.library.datalayer.config.mongo;
+package com.personal.book.library.config.mongo;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;

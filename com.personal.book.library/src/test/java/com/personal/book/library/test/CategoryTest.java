@@ -12,13 +12,19 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.personal.book.library.datalayer.config.jpa.RepositorySpringConfiguration;
+import com.personal.book.library.config.jpa.RepositorySpringConfiguration;
+import com.personal.book.library.config.kafka.KafkaConsumerConfig;
+import com.personal.book.library.config.kafka.KafkaProducerConfig;
+import com.personal.book.library.config.mongo.MongoSpringConfiguration;
 import com.personal.book.library.datalayer.entity.Category;
 import com.personal.book.library.datalayer.repository.jpa.CategoryRepository;
 
 @WebAppConfiguration
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = RepositorySpringConfiguration.class)
+@ContextConfiguration(classes = {RepositorySpringConfiguration.class, 
+		MongoSpringConfiguration.class, 
+		KafkaConsumerConfig.class, 
+		KafkaProducerConfig.class})
 @TestPropertySource({ "classpath:application.properties" })
 public class CategoryTest {
 
@@ -31,7 +37,7 @@ public class CategoryTest {
 	public void createCategory() {
 		
 		Category category = new Category();
-		category.setName("Modern Türkiye Tarih");
+		category.setName("Edebiyat");
 		category = categoryRepository.save(category);
 		
 		Assert.assertNotNull(category.getId());

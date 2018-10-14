@@ -11,8 +11,9 @@ import com.personal.book.library.datalayer.model.Book;
 
 @Repository
 public interface BookDraftRepository extends MongoRepository<Book, BigInteger>{
-
-	public Book findByUserId(BigInteger userId);
+	
+	@Query(value="{ 'userId' : ?0 }")
+	public Book findWithUserId(BigInteger userId);
 	
 	@Query(value="{ 'userId' : ?0 }", delete = true)
 	public Book deleteByUserId(BigInteger userId);
