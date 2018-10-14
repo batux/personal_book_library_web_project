@@ -1,6 +1,10 @@
 # Personal Book Library Web Project 
 
-Technologies:
+# Presentation
+
+https://github.com/batux/personal_book_library_web_project/blob/master/com.personal.book.library/AngularJS_JavaTechnologies.pdf
+
+# Technologies:
 
 - Java
 - JUnit
