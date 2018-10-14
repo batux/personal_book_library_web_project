@@ -22,6 +22,8 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 
 # Docker for Kafka & Zookeeper
 
+Run these docker commands
+
 ```docker
 # create docker-machine
 docker-machine create --driver virtualbox --virtualbox-memory 6000 kafka
@@ -35,6 +37,8 @@ docker-compose -f docker_compose_app_kafka.yml up
 # list all active docker containers
 docker ps -a
 ```
+
+Than you can create a docker compose yml file. You can find it as an example in my repo!
 
 ```yml
 version: '2'
@@ -57,6 +61,8 @@ services:
 
 # Docker Commands
 
+Start MongoDB and MySQL with volume mappings.
+
 ```docker
 docker pull mysql
 docker run --name mysqltest -p 3306:3306 -v ~/mysql_data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
@@ -65,6 +71,7 @@ docker pull mongo
 docker run -d -p 27017:27017 -v ~/mongodb_data:/data/db mongo
 ```
 
+Application screenshots
 
 <img src="https://user-images.githubusercontent.com/2838457/46903382-ae779680-cedc-11e8-932e-d578c889aae2.png" width="700" height="400">
 
