@@ -6,15 +6,15 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import com.personal.book.library.datalayer.model.Book;
+import com.personal.book.library.datalayer.model.BookDraft;
 
 
 @Repository
-public interface BookDraftRepository extends MongoRepository<Book, BigInteger>{
+public interface BookDraftRepository extends MongoRepository<BookDraft, BigInteger>{
 	
 	@Query(value="{ 'userId' : ?0 }")
-	public Book findWithUserId(BigInteger userId);
+	public BookDraft findWithUserId(BigInteger userId);
 	
 	@Query(value="{ 'userId' : ?0 }", delete = true)
-	public Book deleteByUserId(BigInteger userId);
+	public BookDraft deleteByUserId(BigInteger userId);
 }

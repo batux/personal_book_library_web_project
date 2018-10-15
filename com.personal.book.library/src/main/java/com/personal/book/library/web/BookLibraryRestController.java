@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.personal.book.library.datalayer.entity.Book;
 import com.personal.book.library.datalayer.entity.Category;
 import com.personal.book.library.datalayer.entity.User;
+import com.personal.book.library.datalayer.model.BookDraft;
 import com.personal.book.library.datalayer.model.LikeDegree;
 import com.personal.book.library.servicelayer.BookDraftService;
 import com.personal.book.library.servicelayer.BookService;
@@ -62,14 +63,14 @@ public class BookLibraryRestController {
 	}
 	
 	@RequestMapping(value="/book/draft", method=RequestMethod.POST)
-	public @ResponseBody Boolean saveBookAsDraft(@RequestBody com.personal.book.library.datalayer.model.Book book) {
+	public @ResponseBody Boolean saveBookAsDraft(@RequestBody BookDraft book) {
 		
 		Long userId = HttpSessionUtil.getUserId(httpSession);
 		return bookDraftService.saveBookAsDraft(book, userId);
 	}
 	
 	@RequestMapping(value="/book/draft", method=RequestMethod.GET)
-	public @ResponseBody com.personal.book.library.datalayer.model.Book getDraftBookFromAuthenticatedUser() {
+	public @ResponseBody BookDraft getDraftBookFromAuthenticatedUser() {
 		
 		Long userId = HttpSessionUtil.getUserId(httpSession);
 		return bookDraftService.findDraftBook(userId);

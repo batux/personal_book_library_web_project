@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.personal.book.library.datalayer.model.Book;
+import com.personal.book.library.datalayer.model.BookDraft;
 import com.personal.book.library.datalayer.repository.mongo.BookDraftRepository;
 
 @Service
@@ -18,13 +18,13 @@ public class BookDraftService {
 	
 	
 	@Transactional
-	public boolean saveBookAsDraft(Book book, Long userId) {
+	public boolean saveBookAsDraft(BookDraft book, Long userId) {
 		
 		BigInteger userIdAsBigInt = new BigInteger(String.valueOf(userId));
 		book.setUserId(userIdAsBigInt);
 		book.setCreatedDate(new Date());
 		
-		Book originalDraft = bookDraftRepository.findWithUserId(userIdAsBigInt);
+		BookDraft originalDraft = bookDraftRepository.findWithUserId(userIdAsBigInt);
 		
 		if(originalDraft != null) {
 			originalDraft.setAuthorFullName(book.getAuthorFullName());
@@ -34,6 +34,9 @@ public class BookDraftService {
 			originalDraft.setName(book.getName());
 			originalDraft.setUserId(userIdAsBigInt);
 		}
+		else {
+			originalDraft = book;
+		}
 		
 		originalDraft = bookDraftRepository.save(originalDraft);
 		
@@ -41,9 +44,9 @@ public class BookDraftService {
 	}
 	
 	
-	public Book findDraftBook(Long userId) {
+	public BookDraft findDraftBook(Long userId) {
 		
-		Book book = bookDraftRepository.findWithUserId(new BigInteger(String.valueOf(userId)));
+		BookDraft book = bookDraftRepository.findWithUserId(new BigInteger(String.valueOf(userId)));
 		return book;
 	}
 	

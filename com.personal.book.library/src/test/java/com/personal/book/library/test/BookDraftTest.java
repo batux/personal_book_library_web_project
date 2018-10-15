@@ -18,7 +18,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.util.CollectionUtils;
 
 import com.personal.book.library.config.mongo.MongoSpringConfiguration;
-import com.personal.book.library.datalayer.model.Book;
+import com.personal.book.library.datalayer.model.BookDraft;
 import com.personal.book.library.datalayer.repository.mongo.BookDraftRepository;
 
 @WebAppConfiguration
@@ -36,7 +36,7 @@ public class BookDraftTest {
 	@Test
 	public void saveBookAsDraft() {
 		
-		Book draftBook = new Book();
+		BookDraft draftBook = new BookDraft();
 		draftBook.setName("batuhan");
 		draftBook.setUserId(new BigInteger("45"));
 		draftBook.setCreatedDate(new Date());
@@ -44,13 +44,13 @@ public class BookDraftTest {
 		bookDraftRepository.save(draftBook);
 		
 		Query query = new Query().addCriteria(Criteria.where("name").is("batuhan"));
-		List<Book> books = mongoDbTemplate.find(query, Book.class);
+		List<BookDraft> books = mongoDbTemplate.find(query, BookDraft.class);
 		
 		Assert.assertTrue(!CollectionUtils.isEmpty(books));
 		
 		
 		query = new Query().addCriteria(Criteria.where("userId").is("45"));
-		books = mongoDbTemplate.find(query, Book.class);
+		books = mongoDbTemplate.find(query, BookDraft.class);
 		
 		Assert.assertTrue(!CollectionUtils.isEmpty(books));
 	}

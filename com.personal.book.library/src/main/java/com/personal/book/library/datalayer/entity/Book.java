@@ -17,14 +17,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.springframework.data.mongodb.core.mapping.Document;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.personal.book.library.datalayer.model.LikeDegree;
 
-@Document(collection = "book")
 @Entity
 @Table(name = "book")
 public class Book implements Serializable {
@@ -59,11 +55,6 @@ public class Book implements Serializable {
 	@Temporal(TemporalType.DATE)
 	private Date createdDate;
 	
-	@Transient
-	private BigInteger userId;
-	
-	@Transient
-	private BigInteger mongoDbId;
 
 	public BigInteger getId() {
 		return id;
@@ -119,21 +110,5 @@ public class Book implements Serializable {
 
 	public void setCategory(Category category) {
 		this.category = category;
-	}
-
-	public BigInteger getUserId() {
-		return userId;
-	}
-
-	public void setUserId(BigInteger userId) {
-		this.userId = userId;
-	}
-
-	public BigInteger getMongoDbId() {
-		return mongoDbId;
-	}
-
-	public void setMongoDbId(BigInteger mongoDbId) {
-		this.mongoDbId = mongoDbId;
 	}
 }

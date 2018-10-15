@@ -11,7 +11,7 @@ import com.personal.book.library.datalayer.entity.User;
 import com.personal.book.library.datalayer.model.LikeDegree;
 
 @Document(collection = "book")
-public class Book implements Serializable {
+public class BookDraft implements Serializable {
 
 	private static final long serialVersionUID = 7699254600012746828L;
 

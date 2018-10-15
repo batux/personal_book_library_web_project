@@ -28,6 +28,8 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Autowired
 	private SigninUserDetailsService signinUserDetailsService;
 	
+	@Autowired
+	private LogoutSuccessHandler logoutSuccessHandler;
 	     
 	@Autowired
 	public void configureGlobal(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
@@ -73,7 +75,9 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			    .logout()
 			    	.logoutUrl("/logout")
 			    	.logoutSuccessUrl("/login.html")
-			    	.invalidateHttpSession(true);
+			    	.logoutSuccessHandler(logoutSuccessHandler)
+			    	.invalidateHttpSession(true)
+			    	.clearAuthentication(true);
 		
 	}
 	
