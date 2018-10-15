@@ -10,6 +10,7 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - JUnit
 - MySQL
 - MongoDB
+- Redis
 - Bootstrap CSS
 - AngularJS
 - Docker
@@ -19,6 +20,8 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - Spring MVC
 - Spring Kafka
 - Spring Security
+- Spring Session
+- Spring Redis
 
 # Docker Compose File for Infrastructure
 
