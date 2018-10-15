@@ -34,7 +34,7 @@ docker-machine create --driver virtualbox --virtualbox-memory 6000 kafka
 # get docker machine ip
 docker-machine ip kafka
 
-# Docker compose up for Kafka & Zookeeper
+# Docker compose up for Infrastructure
 docker-compose -f docker_compose_app_kafka.yml up
 
 # list all active docker containers
