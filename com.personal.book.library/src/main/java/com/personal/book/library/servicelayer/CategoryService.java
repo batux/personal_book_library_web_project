@@ -19,7 +19,7 @@ public class CategoryService {
 	public List<Category> prepareCategories() {
 		
 		Iterator<Category> categoryIterator = categoryRepository.findAll().iterator();
-		List<Category> categories = new ArrayList<Category>();
+		List<Category> categories = new ArrayList<>();
 		
 		while(categoryIterator.hasNext()) {
 			Category category = categoryIterator.next();

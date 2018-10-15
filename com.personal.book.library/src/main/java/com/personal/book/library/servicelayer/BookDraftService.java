@@ -3,15 +3,12 @@ package com.personal.book.library.servicelayer;
 import java.math.BigInteger;
 import java.util.Date;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.personal.book.library.datalayer.model.Book;
 import com.personal.book.library.datalayer.repository.mongo.BookDraftRepository;
-import com.personal.book.library.util.HttpSessionUtil;
 
 @Service
 public class BookDraftService {
@@ -19,13 +16,10 @@ public class BookDraftService {
 	@Autowired
 	private BookDraftRepository bookDraftRepository;
 	
-	@Autowired
-	private HttpSession httpSession;
 	
 	@Transactional
-	public boolean saveBookAsDraft(Book book) {
+	public boolean saveBookAsDraft(Book book, Long userId) {
 		
-		Long userId = HttpSessionUtil.getUserId(httpSession);
 		BigInteger userIdAsBigInt = new BigInteger(String.valueOf(userId));
 		book.setUserId(userIdAsBigInt);
 		book.setCreatedDate(new Date());
@@ -47,9 +41,8 @@ public class BookDraftService {
 	}
 	
 	
-	public Book findDraftBook() {
+	public Book findDraftBook(Long userId) {
 		
-		Long userId = HttpSessionUtil.getUserId(httpSession);
 		Book book = bookDraftRepository.findWithUserId(new BigInteger(String.valueOf(userId)));
 		return book;
 	}

@@ -2,6 +2,8 @@ package com.personal.book.library.web;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +21,9 @@ import com.personal.book.library.servicelayer.BookService;
 import com.personal.book.library.servicelayer.CategoryService;
 import com.personal.book.library.servicelayer.LikeDegreeService;
 import com.personal.book.library.servicelayer.UserService;
+import com.personal.book.library.servicelayer.exception.ServiceLayerException;
 import com.personal.book.library.servicelayer.model.UserSessionSummary;
+import com.personal.book.library.util.HttpSessionUtil;
 
 @RestController
 @RequestMapping("/book/library/v1")
@@ -40,6 +44,9 @@ public class BookLibraryRestController {
 	@Autowired
 	private BookDraftService bookDraftService;
 	
+	@Autowired
+	private HttpSession httpSession;
+	
 	
 	@RequestMapping(value="/user", method=RequestMethod.POST)
 	public @ResponseBody Long createUser(@RequestBody User user) {
@@ -50,25 +57,29 @@ public class BookLibraryRestController {
 	@RequestMapping(value="/book", method=RequestMethod.POST)
 	public @ResponseBody Long createBook(@RequestBody Book book) {
 		
-		return bookService.createBook(book);
+		Long userId = HttpSessionUtil.getUserId(httpSession);
+		return bookService.createBook(book, userId);
 	}
 	
 	@RequestMapping(value="/book/draft", method=RequestMethod.POST)
 	public @ResponseBody Boolean saveBookAsDraft(@RequestBody com.personal.book.library.datalayer.model.Book book) {
 		
-		return bookDraftService.saveBookAsDraft(book);
+		Long userId = HttpSessionUtil.getUserId(httpSession);
+		return bookDraftService.saveBookAsDraft(book, userId);
 	}
 	
 	@RequestMapping(value="/book/draft", method=RequestMethod.GET)
 	public @ResponseBody com.personal.book.library.datalayer.model.Book getDraftBookFromAuthenticatedUser() {
 		
-		return bookDraftService.findDraftBook();
+		Long userId = HttpSessionUtil.getUserId(httpSession);
+		return bookDraftService.findDraftBook(userId);
 	}
 	
 	@RequestMapping(value="/book/list", method=RequestMethod.GET)
 	public @ResponseBody List<Book> getSavedBooksOfUser() {
 		
-		List<Book> books = bookService.prepareBooksOfUser();
+		Long userId = HttpSessionUtil.getUserId(httpSession);
+		List<Book> books = bookService.prepareBooksOfUser(userId);
 		return books;
 	}
 	
@@ -76,7 +87,13 @@ public class BookLibraryRestController {
 	@RequestMapping(value="/user/summary", method=RequestMethod.GET)
 	public @ResponseBody UserSessionSummary getUserSummary() {
 		
-		return userService.getUserSummary();
+		UserSessionSummary userSummary = HttpSessionUtil.getUserSessionSummary(httpSession);
+		
+		if(userSummary == null) {
+			throw new ServiceLayerException("INVALID-SESSION-ERROR", "Session is not valid!");
+		}
+		
+		return userSummary;
 	}
 	
 	@Cacheable(value = "categories", cacheManager="cacheManager")

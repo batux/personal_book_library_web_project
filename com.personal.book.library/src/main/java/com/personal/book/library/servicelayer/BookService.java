@@ -4,8 +4,6 @@ import java.sql.SQLException;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.http.HttpSession;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -18,7 +16,6 @@ import com.personal.book.library.datalayer.repository.jpa.BookRepository;
 import com.personal.book.library.datalayer.repository.jpa.UserRepository;
 import com.personal.book.library.kafka.MailMessageProducer;
 import com.personal.book.library.servicelayer.exception.ServiceLayerException;
-import com.personal.book.library.util.HttpSessionUtil;
 import com.personal.book.library.util.MailContextUtil;
 
 @Service
@@ -36,18 +33,14 @@ public class BookService {
 	@Autowired
 	private Environment environment;
 	
-	@Autowired
-	private HttpSession httpSession;
-	
 	
 	@Transactional(rollbackFor = { SQLException.class, ServiceLayerException.class })
-	public Long createBook(Book book) {
+	public Long createBook(Book book, Long userId) {
 		
 		if(book == null) {
 			throw new ServiceLayerException("EMPTY-OBJECT-ERROR", "Book object can not be null!");
 		}
 		
-		Long userId = HttpSessionUtil.getUserId(httpSession);
 		User user = userRepository.findById(userId);
 		
 		if(user == null) {
@@ -65,9 +58,7 @@ public class BookService {
 	
 	@Transactional(rollbackFor = { SQLException.class, ServiceLayerException.class })
 	@Commit
-	public List<Book> prepareBooksOfUser() {
-		
-		Long userId = HttpSessionUtil.getUserId(httpSession);
+	public List<Book> prepareBooksOfUser(Long userId) {
 		
 		if(userId < 0) {
 			throw new ServiceLayerException("INVALID-SESSION-ERROR", "Session is not valid!");
