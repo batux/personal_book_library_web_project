@@ -1,5 +1,9 @@
 # Personal Book Library Web Project 
 
+# Architecture
+
+<img src="https://user-images.githubusercontent.com/2838457/47039299-523a9e00-d18c-11e8-980b-75475611d08b.png">
+
 # Presentation
 
 https://github.com/batux/personal_book_library_web_project/blob/master/com.personal.book.library/AngularJS_JavaTechnologies.pdf
