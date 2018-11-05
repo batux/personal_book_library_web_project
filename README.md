@@ -91,7 +91,7 @@ services:
 
 Application screenshots
 
-<img src="https://user-images.githubusercontent.com/2838457/46903382-ae779680-cedc-11e8-932e-d578c889aae2.png" width="700" height="400">
+<img src="https://user-images.githubusercontent.com/2838457/48023253-49673780-e14e-11e8-9036-90218f6490b6.png" width="700" height="400">
 
 <img src="https://user-images.githubusercontent.com/2838457/46903411-13cb8780-cedd-11e8-9f71-5c79ffe74e00.png" width="700" height="400">
 
