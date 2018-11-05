@@ -1,12 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>Bireysel Kütüphane</title>
-<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-<link rel="stylesheet" type="text/css" href="css/breadcrumb.css">
-<link rel="stylesheet" type="text/css"
-	href="css/angular-datepicker.min.css">
+	<meta charset="UTF-8">
+	<title>Bireysel Kütüphane</title>
+	<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="css/breadcrumb.css">
+	<link rel="stylesheet" type="text/css"
+		href="css/angular-datepicker.min.css">
+	
+	<script src="js/angular.min.js"></script>
+	<script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/angular-recaptcha.min.js"></script>
+	<script src="js/login.js"></script>
+	
 </head>
 <body ng-app="AuthenticationApplication">
 
@@ -55,6 +62,13 @@
 											yanlış.</p>
 									</div>
 									
+									
+									<div vc-recaptcha theme="'light'" key="captchaSiteKey"
+											ng-model="recaptchaResponse"
+							                on-create="setWidgetId(widgetId)"
+							                on-expire="captchaExpirationCallback()"></div>
+									
+									
 									<!--  
 										<div class="checkbox">
 											<label> <input name="remember" type="checkbox"
@@ -91,11 +105,7 @@
 
 	</div>
 
-	<script src="js/angular.min.js"></script>
-	<script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
 	
-	<script src="js/login.js"></script>
 
 </body>
 </html>

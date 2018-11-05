@@ -12,6 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.savedrequest.NullRequestCache;
+import org.springframework.web.client.RestTemplate;
+import org.springframework.web.context.request.RequestContextListener;
 
 
 @Configuration
@@ -39,6 +41,16 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	@Bean
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder();
+	}
+	
+	@Bean 
+	public RequestContextListener requestContextListener() {
+	    return new RequestContextListener();
+	}
+	
+	@Bean
+	public RestTemplate restTemplate() {
+	    return new RestTemplate();
 	}
 	
 	@Override

@@ -17,7 +17,7 @@ public class LogoutSuccessHandler extends SimpleUrlLogoutSuccessHandler implemen
     @Override
     public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
   
-        String refererUrl = request.getHeader("Referer");
+        //String refererUrl = request.getHeader("Referer");
         SecurityContextHolder.clearContext();
         super.onLogoutSuccess(request, response, authentication);
     }

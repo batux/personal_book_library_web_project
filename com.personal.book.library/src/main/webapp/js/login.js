@@ -1,9 +1,11 @@
-var creditApplication =  angular.module('AuthenticationApplication', []);
+var authenticationApplication =  angular.module('AuthenticationApplication', ['vcRecaptcha']);
 
-creditApplication.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', function($scope, $rootScope, $location, $http) {
+authenticationApplication.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$location', '$http', '$window', 'vcRecaptchaService', function($scope, $rootScope, $location, $http, vcRecaptchaService) {
     
 	$scope.username = '';
 	$scope.password = '';
+	$scope.recaptchaResponse = '';
+	$scope.captchaSiteKey = '6LcB4XgUAAAAAHIwxZZcBp4Uzg68G1qQYgGhqlut';
 	
 	$scope.unsuccessfullAuthenticationWarningVisibility = false;
 	$scope.usernameWarningVisibility = false;
@@ -20,7 +22,12 @@ creditApplication.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$lo
 			return;
 		}
 		
-		var authenticationRequest = 'username=' + $scope.username + '&password=' + $scope.password;
+		if($scope.recaptchaResponse === '') {
+            alert("Please resolve the captcha and submit!");
+            return;
+        }
+		
+		var authenticationRequest = 'username=' + $scope.username + '&password=' + $scope.password + '&g-recaptcha-response=' + $scope.recaptchaResponse;
 		
 		$http.post('http://localhost:8090/com.personal.book.library/login', authenticationRequest, {headers : headers})
 		 .then(function(response){
@@ -31,8 +38,25 @@ creditApplication.controller('AuthenticationCtrl', ['$scope', '$rootScope', '$lo
 			 }
 	     }).catch(function(response) {
 	    	 	$scope.unsuccessfullAuthenticationWarningVisibility = true;
+	    	 	$scope.captchaExpirationCallback();
 	     });
 	}
+	
+	$scope.setCaptchaResponse = function (response) {
+         console.info('Response available');
+         $scope.recaptchaResponse = response;
+    }
+     
+    $scope.setWidgetId = function (widgetId) {
+         console.info('Created widget ID: %s', widgetId);
+         $scope.widgetId = widgetId;
+    }
+     
+    $scope.captchaExpirationCallback = function() {
+         console.info('Captcha expired. Resetting response object');
+         vcRecaptchaService.reload($scope.widgetId);
+         $scope.recaptchaResponse = null;
+    }
 	
 	var validateLoginForm = function() {
 		

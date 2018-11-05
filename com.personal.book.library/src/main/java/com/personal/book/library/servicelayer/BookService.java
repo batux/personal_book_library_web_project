@@ -7,7 +7,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
-import org.springframework.test.annotation.Commit;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.personal.book.library.datalayer.entity.Book;
@@ -57,7 +56,6 @@ public class BookService {
 	}
 	
 	@Transactional(rollbackFor = { SQLException.class, ServiceLayerException.class })
-	@Commit
 	public List<Book> prepareBooksOfUser(Long userId) {
 		
 		if(userId < 0) {

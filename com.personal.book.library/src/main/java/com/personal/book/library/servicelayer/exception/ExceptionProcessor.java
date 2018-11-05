@@ -57,6 +57,20 @@ public class ExceptionProcessor {
          
         return new ServiceExceptionDetails("", detailedErrorMessage, errorURL);
     }
+	
+	
+	@ExceptionHandler(ReCaptchaInvalidFormatException.class)
+	@ResponseStatus(value = HttpStatus.NOT_FOUND)
+	@ResponseBody
+	public ServiceExceptionDetails processReCaptchaInvalidFormatException(HttpServletRequest httpServletRequest, ReCaptchaInvalidFormatException exception) {
+        
+		String errorMessage = exception.getMessage();
+		String detailedErrorMessage = exception.getDetailedMessageDescription();
+         
+        String errorURL = httpServletRequest.getRequestURL().toString();
+         
+        return new ServiceExceptionDetails(errorMessage, detailedErrorMessage, errorURL);
+    }
  
 	@ExceptionHandler(MissingServletRequestParameterException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)

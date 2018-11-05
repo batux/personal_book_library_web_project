@@ -1,6 +1,6 @@
-var creditApplication =  angular.module('BookLibraryApp', []);
+var bookLibraryApplication =  angular.module('BookLibraryApp', []);
 
-creditApplication.controller('BookLibraryCtlr', ['$scope', '$rootScope', '$location', '$http', '$interval', function($scope, $rootScope, $location, $http, $interval) {
+bookLibraryApplication.controller('BookLibraryCtlr', ['$scope', '$rootScope', '$location', '$http', '$interval', function($scope, $rootScope, $location, $http, $interval) {
     
 	$scope.submitted = false;
 	
