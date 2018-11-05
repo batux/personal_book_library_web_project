@@ -30,7 +30,7 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 
 # Google reCAPTCHA must Changes!
 
-You should create some recaptcha keys from https://www.google.com/recaptcha/admin#list for your application. And then, you should replace PUT_YOUR_KEY symbols with your keys.
+You should create some recaptcha keys from https://www.google.com/recaptcha/admin#list for your application. And then, you should replace PUT_YOUR_KEY symbols with your keys in application.properties files.
 
 ``` properties
 #Google Captcha v3
