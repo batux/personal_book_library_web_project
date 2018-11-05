@@ -32,9 +32,11 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 
 You should create some recaptcha keys from https://www.google.com/recaptcha/admin#list for your application. And then, you should replace PUT_YOUR_KEY symbols with your keys.
 
+``` properties
 #Google Captcha v3
 google.captcha.site.key=PUT_YOUR_KEY
 google.captcha.secret.key=PUT_YOUR_KEY
+```
 
 # Docker Compose File for Infrastructure
 
