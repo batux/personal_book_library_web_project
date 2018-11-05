@@ -99,11 +99,12 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
 ```
 
-References
+# References
 
 https://www.baeldung.com/spring-security-registration-captcha
 
-Application screenshots
+
+# Application screenshots
 
 <img src="https://user-images.githubusercontent.com/2838457/48023253-49673780-e14e-11e8-9036-90218f6490b6.png" width="700" height="400">
 
