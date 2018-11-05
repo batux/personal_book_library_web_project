@@ -2,7 +2,7 @@
 
 # Architecture
 
-<img src="https://user-images.githubusercontent.com/2838457/47039299-523a9e00-d18c-11e8-980b-75475611d08b.png">
+<img src="https://user-images.githubusercontent.com/2838457/48023501-035ea380-e14f-11e8-8747-b374f3c3cdd1.png">
 
 # Presentation
 
