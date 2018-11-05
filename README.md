@@ -18,6 +18,7 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - Bootstrap CSS
 - AngularJS
 - Docker
+- Google Recaptcha
 - Spring Framework
 - Spring Core
 - Spring Data
