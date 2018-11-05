@@ -1,5 +1,9 @@
 # Personal Book Library Web Project 
 
+# Architecture
+
+<img src="https://user-images.githubusercontent.com/2838457/47039299-523a9e00-d18c-11e8-980b-75475611d08b.png">
+
 # Presentation
 
 https://github.com/batux/personal_book_library_web_project/blob/master/com.personal.book.library/AngularJS_JavaTechnologies.pdf
@@ -10,6 +14,7 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - JUnit
 - MySQL
 - MongoDB
+- Redis
 - Bootstrap CSS
 - AngularJS
 - Docker
@@ -19,8 +24,10 @@ https://github.com/batux/personal_book_library_web_project/blob/master/com.perso
 - Spring MVC
 - Spring Kafka
 - Spring Security
+- Spring Session
+- Spring Redis
 
-# Docker for Kafka & Zookeeper
+# Docker Compose File for Infrastructure
 
 Run these docker commands
 
@@ -31,7 +38,7 @@ docker-machine create --driver virtualbox --virtualbox-memory 6000 kafka
 # get docker machine ip
 docker-machine ip kafka
 
-# Docker compose up for Kafka & Zookeeper
+# Docker compose up for Infrastructure
 docker-compose -f docker_compose_app_kafka.yml up
 
 # list all active docker containers
@@ -43,6 +50,28 @@ Than you can create a docker compose yml file. You can find it as an example in 
 ```yml
 version: '2'
 services:
+
+  mysql:
+    image: mysql:latest
+    ports: 
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+    volumes: 
+      - ~/mysql_data:/var/lib/mysql
+
+  mongodb:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    volumes:
+      - ~/mongodb_data:/data/db mongo
+
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+
   zookeeper:
     image: wurstmeister/zookeeper
     ports:
@@ -57,18 +86,6 @@ services:
       KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-```
-
-# Docker Commands
-
-Start MongoDB and MySQL with volume mappings.
-
-```docker
-docker pull mysql
-docker run --name mysqltest -p 3306:3306 -v ~/mysql_data:/var/lib/mysql  -e MYSQL_ROOT_PASSWORD=root -d mysql:latest
-
-docker pull mongo
-docker run -d -p 27017:27017 -v ~/mongodb_data:/data/db mongo
 ```
 
 Application screenshots
