@@ -42,7 +42,7 @@ public class BookDraftTest {
 		draftBook.setCreatedDate(new Date());
 		
 		bookDraftRepository.save(draftBook);
-		
+
 		Query query = new Query().addCriteria(Criteria.where("name").is("batuhan"));
 		List<BookDraft> books = mongoDbTemplate.find(query, BookDraft.class);
 		
@@ -53,5 +53,10 @@ public class BookDraftTest {
 		books = mongoDbTemplate.find(query, BookDraft.class);
 		
 		Assert.assertTrue(!CollectionUtils.isEmpty(books));
+
+		for(BookDraft bookDraft : books)
+		{
+			Assert.assertEquals(bookDraft.getId(),45);
+		}
 	}
 }
