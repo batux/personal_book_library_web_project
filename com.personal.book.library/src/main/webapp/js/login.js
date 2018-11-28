@@ -6,6 +6,7 @@ authenticationApplication.controller('AuthenticationCtrl', ['$scope', '$rootScop
 	$scope.password = '';
 	$scope.recaptchaResponse = '';
 	$scope.captchaSiteKey = '6LcB4XgUAAAAAHIwxZZcBp4Uzg68G1qQYgGhqlut';
+	$scope.otpKey = '';
 	
 	$scope.unsuccessfullAuthenticationWarningVisibility = false;
 	$scope.usernameWarningVisibility = false;
@@ -27,15 +28,36 @@ authenticationApplication.controller('AuthenticationCtrl', ['$scope', '$rootScop
             return;
         }
 		
+		$scope.attemptLogin();
+	}
+	
+	
+	$scope.attemptLogin = function() {
+		
 		var authenticationRequest = 'username=' + $scope.username + '&password=' + $scope.password + '&g-recaptcha-response=' + $scope.recaptchaResponse;
 		
 		$http.post('http://localhost:8090/com.personal.book.library/login', authenticationRequest, {headers : headers})
 		 .then(function(response){
 			 
-			 if(response.status == 200) {
-				 var redirectUrl = 'http://localhost:8090/com.personal.book.library/main.html';
-				 window.location.href = redirectUrl;
+			 if(response.status) {
+				 var headers = response.headers();
+				 
+				 var redirectPageKey = headers['auth_redirect'];
+				 var rootPath = 'http://localhost:8090/com.personal.book.library/';
+				 
+				 if(redirectPageKey == 'TOTP_AUTHENTICATION') {
+					 rootPath += 'totp_auth.html';
+				 }
+				 else if(redirectPageKey == 'SMS_AUTHENTICATION') {
+					 rootPath += 'sms_auth.html';
+				 }
+				 else if(redirectPageKey == 'AUTHENTICATION_COMPLETED') {
+					rootPath += 'main.html';
+				 }
+				 
+				 window.location.href = rootPath;
 			 }
+			 console.log(response);
 	     }).catch(function(response) {
 	    	 	$scope.unsuccessfullAuthenticationWarningVisibility = true;
 	    	 	$scope.captchaExpirationCallback();
@@ -54,7 +76,9 @@ authenticationApplication.controller('AuthenticationCtrl', ['$scope', '$rootScop
      
     $scope.captchaExpirationCallback = function() {
          console.info('Captcha expired. Resetting response object');
-         vcRecaptchaService.reload($scope.widgetId);
+         if(vcRecaptchaService) {
+        	 vcRecaptchaService.reload($scope.widgetId);
+         }
          $scope.recaptchaResponse = null;
     }
 	

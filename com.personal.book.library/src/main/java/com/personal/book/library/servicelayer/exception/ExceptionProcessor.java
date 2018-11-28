@@ -33,7 +33,7 @@ public class ExceptionProcessor {
          
         return new ServiceExceptionDetails(errorMessage, detailedErrorMessage, errorURL);
     }
- 
+	
 	@ExceptionHandler(DataAccessException.class)
     @ResponseStatus(value = HttpStatus.NOT_FOUND)
     @ResponseBody
@@ -57,7 +57,6 @@ public class ExceptionProcessor {
          
         return new ServiceExceptionDetails("", detailedErrorMessage, errorURL);
     }
-	
 	
 	@ExceptionHandler(ReCaptchaInvalidFormatException.class)
 	@ResponseStatus(value = HttpStatus.NOT_FOUND)
@@ -99,5 +98,4 @@ public class ExceptionProcessor {
         return new ServiceExceptionDetails("", detailedErrorMessage, "");
     }
 
-	
 }

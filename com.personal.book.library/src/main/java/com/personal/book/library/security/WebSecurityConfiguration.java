@@ -15,6 +15,11 @@ import org.springframework.security.web.savedrequest.NullRequestCache;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.context.request.RequestContextListener;
 
+import com.personal.book.library.security.handler.LogoutSuccessHandler;
+import com.personal.book.library.security.handler.SigninFailureHandler;
+import com.personal.book.library.security.handler.SigninSuccessHandler;
+import com.personal.book.library.security.providers.UserAuthenticationProvider;
+
 
 @Configuration
 @EnableWebSecurity
@@ -32,11 +37,12 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	
 	@Autowired
 	private LogoutSuccessHandler logoutSuccessHandler;
-	     
-	@Autowired
-	public void configureGlobal(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
-		authenticationManagerBuilder.userDetailsService(signinUserDetailsService).passwordEncoder(passwordEncoder());
-	}
+	
+	
+//	@Autowired
+//	public void configureGlobal(final AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
+//		authenticationManagerBuilder.userDetailsService(signinUserDetailsService).passwordEncoder(passwordEncoder());
+//	}
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -57,9 +63,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 	public void configure(WebSecurity web) throws Exception {
 		
 	    web.ignoring().antMatchers(
-	    		"/login.html", 
-	    		// "/rest/credit/application/v1/city/list", 
-	    		// "/rest/credit/application/v1/town/list/**",
+	    		"/login.html",
+	    		"/signup.html",
+	    		"/rest/book/library/v1/user/**",
+	    		"/rest/book/library/v1/otp/qrcode/**",
+	    		"/rest/book/library/v1/user/twofactor/**",
 	    		"/js/*", "/img/*", "/css/*", "/fonts/*");
 	}
 	
@@ -71,6 +79,11 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			.anyRequest()
 				.authenticated()
 				.antMatchers("/rest/**").permitAll()
+				//.antMatchers("/rest/**").hasAuthority("AUTHENTICATED")
+				.antMatchers("/main.html").permitAll()
+				.antMatchers("/validate/**").permitAll()
+				.antMatchers("/sms_auth.html").permitAll()
+				.antMatchers("/totp_auth.html").permitAll()
 				.and()
 		        .requestCache()
 		        .requestCache(new NullRequestCache())
@@ -92,5 +105,14 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter{
 			    	.clearAuthentication(true);
 		
 	}
+	
+	@Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+		
+		UserAuthenticationProvider userAuthenticationProvider = new UserAuthenticationProvider();
+		userAuthenticationProvider.setUserDetailsService(signinUserDetailsService);
+		userAuthenticationProvider.setPasswordEncoder(passwordEncoder());
+        auth.authenticationProvider(userAuthenticationProvider);
+    }
 	
 }

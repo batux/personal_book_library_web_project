@@ -4,11 +4,13 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.personal.book.library.datalayer.entity.User;
+import com.personal.book.library.util.Constant;
 
 
 public class AuthenticatedUser implements UserDetails{
@@ -26,7 +28,7 @@ public class AuthenticatedUser implements UserDetails{
 		
 		Set<GrantedAuthority> grantedAuthorities = new HashSet<GrantedAuthority>();
 		
-		grantedAuthorities.add(new SimpleGrantedAuthority("USER"));
+		grantedAuthorities.add(new SimpleGrantedAuthority(Constant.USER_ROLE));
 		
 		return grantedAuthorities;
 	}
@@ -63,6 +65,11 @@ public class AuthenticatedUser implements UserDetails{
 
 	public User getUser() {
 		return this.user;
+	}
+	
+	public String getOtpSecret() {
+		
+		return (this.user == null) ? StringUtils.EMPTY : this.user.getOtpSecret();
 	}
 
 }

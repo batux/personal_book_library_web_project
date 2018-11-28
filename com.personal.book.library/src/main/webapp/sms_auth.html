@@ -12,12 +12,12 @@
 	<script src="js/jquery.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="js/angular-recaptcha.min.js"></script>
-	<script src="js/login.js"></script>
+	<script src="js/sms_validation.js"></script>
 	
 </head>
-<body ng-app="AuthenticationApplication">
+<body ng-app="SMSApplication">
 
-	<div class="container" ng-controller="AuthenticationCtrl">
+	<div class="container" ng-controller="SMSCtrl">
 
 		<div class="container">
 			<div class="row header_bottom_padding">
@@ -37,38 +37,18 @@
 				<div class="col-md-4 col-md-offset-4">
 					<div class="panel panel-default">
 						<div class="panel-heading">
-							<h3 class="panel-title">Giriş Paneli</h3>
+							<h3 class="panel-title">TOTP Paneli</h3>
 						</div>
 						<div class="panel-body">
-							<form accept-charset="UTF-8" role="form" ng-submit="login()">
+							<form accept-charset="UTF-8" role="form">
 								<fieldset>
 								
 									<div class="form-group">
-										<input class="form-control" placeholder="Kullanıcı adınız ..."
-											ng-model="username" name="username" type="text">
+										<input class="form-control" placeholder="SMS Code ..."
+											ng-model="otpCode" name="smsCode" type="text">
 									</div>
-									<div class="form-group" ng-show="usernameWarningVisibility">
-										<p class="text-danger">Kullanıcı adınızı giriniz.</p>
-									</div>
-									<div class="form-group">
-										<input class="form-control" placeholder="Şifreniz ..."
-											ng-model="password" name="password" type="password" value="">
-									</div>
-									<div class="form-group" ng-show="passwordWarningVisibility">
-										<p class="text-danger">Şifrenizi giriniz.</p>
-									</div>
-									<div class="form-group"
-										ng-show="unsuccessfullAuthenticationWarningVisibility">
-										<p class="text-danger">Kullanıcı adınız veya şifreniz
-											yanlış.</p>
-									</div>
-									
-									<div vc-recaptcha theme="'light'" key="captchaSiteKey"
-											ng-model="recaptchaResponse"
-							                on-create="setWidgetId(widgetId)"
-							                on-expire="captchaExpirationCallback()"></div>
-									
-									<button type="submit" class="btn btn-lg btn-success btn-block">Giriş Yap</button>
+								
+									<button class="btn btn-lg btn-success btn-block" ng-click="validate()">Gönder</button>
 									
 								</fieldset>
 							</form>
@@ -96,8 +76,6 @@
 		</div>
 
 	</div>
-
-	
 
 </body>
 </html>

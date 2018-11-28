@@ -34,6 +34,9 @@ public class User implements Serializable {
 	@Column(name = "password", length=100, nullable=false)
 	private String password;
 	
+	@Column(name = "otp_secret", length=100, nullable=false)
+	private String otpSecret;
+
 	@Column(name = "created_date", nullable=false)
 	@Temporal(TemporalType.DATE)
 	private Date createDate;
@@ -85,6 +88,14 @@ public class User implements Serializable {
 
 	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
+	}
+
+	public String getOtpSecret() {
+		return otpSecret;
+	}
+
+	public void setOtpSecret(String otpSecret) {
+		this.otpSecret = otpSecret;
 	}
 	
 }

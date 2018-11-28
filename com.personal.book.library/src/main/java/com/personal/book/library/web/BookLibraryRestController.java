@@ -1,17 +1,25 @@
 package com.personal.book.library.web;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 import com.personal.book.library.datalayer.entity.Book;
 import com.personal.book.library.datalayer.entity.Category;
 import com.personal.book.library.datalayer.entity.User;
@@ -54,6 +62,18 @@ public class BookLibraryRestController {
 		
 		return userService.createUser(user);
 	}
+	
+	@RequestMapping(value = "/otp/qrcode/{userid}.png", method = RequestMethod.GET)
+    public void generateQRCode(HttpServletResponse response, @PathVariable("userid") Long userId) throws WriterException, IOException {
+        
+		String otpProtocol = userService.generateOTPProtocol(userId);
+        response.setContentType("image/png");
+        
+        QRCodeWriter writer = new QRCodeWriter();
+        BitMatrix matrix = writer.encode(otpProtocol, BarcodeFormat.QR_CODE, 250, 250);
+        MatrixToImageWriter.writeToStream(matrix, "PNG", response.getOutputStream());
+        response.getOutputStream().flush();
+    }
 	
 	@RequestMapping(value="/book", method=RequestMethod.POST)
 	public @ResponseBody Long createBook(@RequestBody Book book) {
